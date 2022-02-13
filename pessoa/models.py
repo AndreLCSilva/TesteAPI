@@ -8,6 +8,7 @@ class personData(models.Model):
     phone = models.CharField(max_length=15)
     email = models.CharField(max_length=30)
     idUser = models.OneToOneField(User, on_delete=CASCADE, primary_key=True)
+    #idUser = models.OneToOneField(User, on_delete=CASCADE, primary_key=True, blank=True, null=True)
 
     class Meta:
         db_table = 'person'

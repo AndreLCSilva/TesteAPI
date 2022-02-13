@@ -1,25 +1,19 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from pessoa.models import personData
 from . serializers import personDataSerializer
-from django.shortcuts import render, redirect
 
-class pessoaAPIView(generics.ListAPIView):
-    queryset = personData.objects.all()
-    serializer_class = personDataSerializer
+@api_view(['GET', 'POST'])
+def personData_list(request):
+    if request.method == 'GET':
+        pessoa = personData.objects.all()
+        serializer = personDataSerializer(pessoa, many=True)
+        return Response(serializer.data)
 
-def submitPessoa(request):
-    if request.POST:
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        email = request.POST.get('email')
-        #usuario = request.user
-        idUser = request.POST.get('idUser')
-        if idUser:
-            personData.objects.filter(idUser=idUser).update(name=name,
-                                                      phone=phone,
-                                                      email=email)
-        else:
-            personData.objects.create(name=name,
-                                      phone=phone,
-                                      email=email)
-    return redirect('api/v1')
+    elif request.method == 'POST':
+        serializer = personDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
