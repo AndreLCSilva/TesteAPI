@@ -20,6 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', personData_list),
-    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/options/', include('dj_rest_auth.urls')),
+    path('api/register/', include('dj_rest_auth.registration.urls')),
     #path('<int:pk>/', submitPessoa.as_view()),
 ]
