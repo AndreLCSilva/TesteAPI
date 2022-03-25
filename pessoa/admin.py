@@ -1,4 +1,6 @@
 from django.contrib import admin
-from . models import personData
+from .models import NewUser
+from django.contrib.auth.admin import UserAdmin
 
-admin.site.register(personData)
+
+admin.site.register(NewUser)

@@ -38,16 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django.contrib.sites',
+
     #app local
     'pessoa', #app para cadastrar pessoas
-    'api', #consumir o dados do app pessoa
+    'garagem', #app para cadastrar garagens
+    'api', #consumir o dados de pessoa e garagem
 
     #tericeira parte
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1 # new
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -96,10 +105,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': 'Ele',
+
+        'USER': 'postgres',
+
+        'PASSWORD': 'andre',
+
+        'HOST': 'localhost',
+
+        'PORT': '15432',
+
     }
+
 }
 
 
@@ -140,3 +162,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'pessoa.NewUser'

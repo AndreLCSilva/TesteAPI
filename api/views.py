@@ -1,19 +1,6 @@
-from rest_framework import generics, status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from pessoa.models import personData
-from . serializers import personDataSerializer
+from django.shortcuts import render
+import requests
 
-@api_view(['GET', 'POST'])
-def personData_list(request):
-    if request.method == 'GET':
-        pessoa = personData.objects.all()
-        serializer = personDataSerializer(pessoa, many=True)
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = personDataSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def clientes_cadastrados(request):
+    queryset = requests.get("http://127.0.0.1:8000/api/pessoa", headers={"Authorization" : "Token f8cd01852c66a5d5dd2125644b5675e277bd9e24"}).json()
+    return render(request, "pessoas.html", {'queryset' : queryset})
